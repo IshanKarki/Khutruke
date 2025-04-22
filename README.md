@@ -1,4 +1,4 @@
-# khutruke
+# Khutruke
 
 A new Flutter project.
 
