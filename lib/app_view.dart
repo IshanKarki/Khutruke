@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'screens/home/views/home_screen.dart';
 
 class MyAppView extends StatelessWidget {
@@ -13,9 +14,13 @@ class MyAppView extends StatelessWidget {
         colorScheme: ColorScheme.light(
           surface: Colors.grey.shade100,
           onSurface: Colors.black,
-          primary: const Color(0xFF00B2E7),
-          secondary: const Color(0xFFE064F7),
-          tertiary: const Color(0xFFFF8D6C),
+          primary: const Color.fromARGB(255, 124, 17, 232),
+          secondary: const Color.fromARGB(255, 255, 99, 216),
+          tertiary: const Color.fromARGB(255, 255, 159, 99),
+          outline: const Color.fromARGB(255, 99, 99, 99),
+        ),
+        textTheme: GoogleFonts.interTextTheme(
+          Theme.of(context).textTheme,
         ),
       ),
       home: HomeScreen(),
