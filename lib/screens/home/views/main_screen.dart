@@ -2,9 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class MainScreen extends StatelessWidget {
+import 'package:khutruke/data/data.dart';
+import 'package:khutruke/screens/home/views/stat_screen.dart';
+
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -82,6 +90,10 @@ class MainScreen extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 //redirect to the insights or analytics screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => StatScreen()),
+                );
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
@@ -251,7 +263,7 @@ class MainScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
-                itemCount: 5,
+                itemCount: transactionsData.length,
                 itemBuilder: (context, int i) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
@@ -281,19 +293,20 @@ class MainScreen extends StatelessWidget {
                                       width: 50,
                                       height: 50,
                                       decoration: BoxDecoration(
-                                        color: Colors.amberAccent,
+                                        color: transactionsData[i]['color'],
                                         shape: BoxShape.circle,
                                       ),
                                     ),
-                                    Icon(
-                                      CupertinoIcons.lightbulb_fill,
-                                      color: Colors.white,
-                                    ),
+                                    transactionsData[i]['icon'],
+                                    // Icon(
+                                    //   transactionsData[i]['icon'],
+                                    //   color: Colors.white,
+                                    // ),
                                   ],
                                 ),
                                 const SizedBox(width: 12),
                                 Text(
-                                  'Electricity Bill',
+                                  transactionsData[i]['name'],
                                   style: TextStyle(
                                     fontSize: 14,
                                     color:
@@ -315,7 +328,7 @@ class MainScreen extends StatelessWidget {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      "NPR 450",
+                                      transactionsData[i]['price'],
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.red.shade900,
@@ -325,12 +338,12 @@ class MainScreen extends StatelessWidget {
                                   ],
                                 ),
                                 Text(
-                                  'Today',
+                                  transactionsData[i]['date'],
                                   style: TextStyle(
                                     fontSize: 14,
                                     color:
                                         Theme.of(context).colorScheme.outline,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ),
                               ],

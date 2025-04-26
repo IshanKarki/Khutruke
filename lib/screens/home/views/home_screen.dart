@@ -1,11 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
+import 'goal_screen.dart';
 import 'package:khutruke/screens/home/views/main_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // var widgetList = [MainScreen(), StatScreen(), GoalScreen()];
+
+  int index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +25,11 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
         child: BottomNavigationBar(
+          onTap: (value) {
+            setState(() {
+              index = value;
+            });
+          },
           backgroundColor: Colors.white,
           showSelectedLabels: false,
           showUnselectedLabels: false,
@@ -47,13 +61,13 @@ class HomeScreen extends StatelessWidget {
                 Theme.of(context).colorScheme.secondary,
                 Theme.of(context).colorScheme.primary,
               ],
-              transform: GradientRotation(pi/4),
+              transform: GradientRotation(pi / 4),
             ),
           ),
           child: Icon(CupertinoIcons.add),
         ),
       ),
-      body: const MainScreen(),
+      body: index == 0 ? MainScreen() : GoalScreen(),
     );
   }
 }
