@@ -153,9 +153,9 @@ class _MainScreenState extends State<MainScreen> {
                                   color: Colors.white30,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Center(
+                                child: Center(
                                   child: Icon(
-                                    CupertinoIcons.arrow_down,
+                                    CupertinoIcons.arrowtriangle_down_fill,
                                     size: 14,
                                     color: Colors.greenAccent,
                                   ),
@@ -194,11 +194,11 @@ class _MainScreenState extends State<MainScreen> {
                                   color: Colors.white30,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Center(
+                                child: Center(
                                   child: Icon(
-                                    CupertinoIcons.arrow_up,
+                                    CupertinoIcons.arrowtriangle_up_fill,
                                     size: 14,
-                                    color: Colors.red,
+                                    color: Colors.red.shade700,
                                   ),
                                 ),
                               ),

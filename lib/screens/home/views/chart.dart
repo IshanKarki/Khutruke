@@ -1,5 +1,4 @@
-
-import 'dart:math';
+// import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -13,9 +12,7 @@ class MyChart extends StatefulWidget {
 class _MyChartState extends State<MyChart> {
   @override
   Widget build(BuildContext context) {
-    return BarChart(
-      mainBarData(),
-    );
+    return BarChart(mainBarData());
   }
 
   BarChartGroupData makeGroupData(int x, double y) {
@@ -23,23 +20,24 @@ class _MyChartState extends State<MyChart> {
       x: x,
       barRods: [
         BarChartRodData(
+          color: Theme.of(context).colorScheme.primary,
           toY: y,
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.secondary,
-              Theme.of(context).colorScheme.tertiary,
-            ],
-            transform: const GradientRotation(pi / 40),
-          ),
-          width: 20,
+          // gradient: LinearGradient(
+          //   colors: [
+          //     Theme.of(context).colorScheme.primary,
+          //     Theme.of(context).colorScheme.secondary,
+          //     Theme.of(context).colorScheme.tertiary,
+          //   ],
+          //   transform: const GradientRotation(pi / 40),
+          // ),
+          width: 10,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 5,
-            color: Colors.grey.shade300
-          )
-        )
-      ]
+            color: Colors.grey.shade300,
+          ),
+        ),
+      ],
     );
   }
 
@@ -69,18 +67,16 @@ class _MyChartState extends State<MyChart> {
       titlesData: FlTitlesData(
         show: true,
         rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false)
+          sideTitles: SideTitles(showTitles: false),
         ),
-        
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false)
-        ),
+
+        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 38,
             getTitlesWidget: getTiles,
-          )
+          ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
@@ -90,9 +86,7 @@ class _MyChartState extends State<MyChart> {
           ),
         ),
       ),
-      borderData: FlBorderData(
-        show: false
-      ),
+      borderData: FlBorderData(show: false),
       gridData: const FlGridData(show: false),
       barGroups: showingGroups(),
     );
@@ -143,7 +137,7 @@ class _MyChartState extends State<MyChart> {
     );
   }
 
-   Widget leftTitles(double value, TitleMeta meta) {
+  Widget leftTitles(double value, TitleMeta meta) {
     const style = TextStyle(
       color: Colors.grey,
       fontWeight: FontWeight.bold,
