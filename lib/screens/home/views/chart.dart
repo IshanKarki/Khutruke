@@ -81,7 +81,7 @@ class _MyChartState extends State<MyChart> {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 38,
+            reservedSize: 20,
             getTitlesWidget: leftTitles,
           ),
         ),
@@ -132,7 +132,7 @@ class _MyChartState extends State<MyChart> {
     return SideTitleWidget(
       // axisSide: meta.axisSide,
       meta: meta,
-      space: 16,
+      space: 10,
       child: text,
     );
   }
@@ -145,7 +145,9 @@ class _MyChartState extends State<MyChart> {
     );
     String text;
     if (value == 0) {
-      text = '1K';
+      text = '0';
+    } else if (value == 1) {
+      text = '1k';
     } else if (value == 2) {
       text = '2K';
     } else if (value == 3) {

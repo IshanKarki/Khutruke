@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:khutruke/screens/add_expense/views/add_expense.dart';
 import 'dart:math';
 import 'goal_screen.dart';
 import 'package:khutruke/screens/home/views/main_screen.dart';
@@ -47,7 +48,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddExpense()),
+          );
+        },
         elevation: 8,
         shape: const CircleBorder(),
         child: Container(
