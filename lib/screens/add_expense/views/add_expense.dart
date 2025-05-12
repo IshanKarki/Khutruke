@@ -1,35 +1,149 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
-class AddExpense extends StatelessWidget {
+class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
 
   @override
+  State<AddExpense> createState() => _AddExpenseState();
+}
+
+class _AddExpenseState extends State<AddExpense> {
+  TextEditingController expenseController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  DateTime selectDate = DateTime.now();
+
+  @override
+  void initState() {
+    dateController.text = DateFormat('EEE, MM/dd/yyyy').format(DateTime.now());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surface),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Add Expense',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-            ),
-            TextFormField(),
-            SizedBox(height: 16),
-            TextFormField(),
-            SizedBox(height: 16),
-            TextFormField(),
-            SizedBox(height: 16),
-            TextButton(
-              onPressed: () {
-                print('Saved pressed');
-              },
-              child: Text('Save'),
-            ),
-          ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surface),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Add Expense',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+              ),
+              SizedBox(height: 16),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: TextFormField(
+                  controller: expenseController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.indianRupeeSign,
+                      size: 16,
+                      color: Colors.grey.shade600,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
+                    label: Text(
+                      'Enter Amount',
+                      style: TextStyle(color: Colors.grey.shade600),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 32),
+              TextFormField(
+                controller: categoryController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: Icon(
+                    FontAwesomeIcons.list,
+                    size: 16,
+                    color: Colors.grey.shade600,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                  label: Text(
+                    'Category',
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
+                ),
+              ),
+              SizedBox(height: 32),
+              TextFormField(
+                controller: dateController,
+                readOnly: true,
+                onTap: () async {
+                  DateTime? newDate = await showDatePicker(
+                    context: context,
+                    initialDate: selectDate,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(Duration(days: 365)),
+                  );
+                  if (newDate != null) {
+                    dateController.text = DateFormat(
+                      'EEE, MM/dd/yyyy',
+                    ).format(newDate);
+                    selectDate = newDate;
+                  }
+                },
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: Icon(
+                    FontAwesomeIcons.calendarDay,
+                    size: 16,
+                    color: Colors.grey.shade600,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                  label: Text(
+                    'Date',
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
+                ),
+              ),
+              SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                height: kToolbarHeight,
+                child: TextButton(
+                  onPressed: () {
+                    print('Saved pressed');
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Text(
+                    'Save',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
