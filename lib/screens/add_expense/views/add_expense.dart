@@ -37,7 +37,7 @@ class _AddExpenseState extends State<AddExpense> {
                 'Add Expense',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 32),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
                 child: TextFormField(
@@ -50,13 +50,11 @@ class _AddExpenseState extends State<AddExpense> {
                       size: 16,
                       color: Colors.grey.shade600,
                     ),
+                    hintText: 'Enter Amount',
+                    hintStyle: TextStyle(color: Colors.grey.shade600),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
-                    ),
-                    label: Text(
-                      'Enter Amount',
-                      style: TextStyle(color: Colors.grey.shade600),
                     ),
                   ),
                 ),
@@ -64,6 +62,7 @@ class _AddExpenseState extends State<AddExpense> {
               SizedBox(height: 32),
               TextFormField(
                 controller: categoryController,
+                readOnly: true,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -76,9 +75,28 @@ class _AddExpenseState extends State<AddExpense> {
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
-                  label: Text(
-                    'Category',
-                    style: TextStyle(color: Colors.grey.shade600),
+                  hintText: 'Category',
+                  hintStyle: TextStyle(color: Colors.grey.shade600),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Column(
+                              children: [
+                                
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    icon: Icon(
+                      FontAwesomeIcons.caretDown,
+                      size: 20,
+                      color: Colors.grey.shade600,
+                    ),
                   ),
                 ),
               ),
