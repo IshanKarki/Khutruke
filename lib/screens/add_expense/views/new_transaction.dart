@@ -36,62 +36,68 @@ class _NewTransactionState extends State<NewTransaction>
                   bottom: TabBar(
                     tabs: [
                       Tab(
-                        child: Row(
-                          children: [
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
-
-                                Icon(
-                                  Icons.arrow_circle_up_rounded,
-                                  color: Colors.red.shade900,
-                                  size: 30,
-                                ),
-                              ],
-                            ),
-                            SizedBox(width: 10),
-                            Text('Expense'),
-                          ],
+                          
+                                  Icon(
+                                    Icons.arrow_circle_up_rounded,
+                                    color: Colors.red.shade900,
+                                    size: 30,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 10),
+                              Text('Expense'),
+                            ],
+                          ),
                         ),
                       ),
                       Tab(
-                        child: Row(
-                          children: [
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
-
-                                Icon(
-                                  Icons.arrow_circle_down_rounded,
-                                  color: Colors.green.shade800,
-                                  size: 30,
-                                ),
-                              ],
-                            ),
-                            SizedBox(width: 10),
-                            Text('Income'),
-                          ],
+                          
+                                  Icon(
+                                    Icons.arrow_circle_down_rounded,
+                                    color: Colors.green.shade800,
+                                    size: 30,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 10),
+                              Text('Income'),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                     labelColor: Colors.white,
                     unselectedLabelColor: Colors.black,
                     indicatorSize: TabBarIndicatorSize.tab,
-                    // indicatorPadding: EdgeInsets.symmetric(horizontal: 10),
+                    indicatorPadding: EdgeInsets.symmetric(horizontal: 10),
                     indicator: BoxDecoration(
                       color: selectedColor,
                       borderRadius: BorderRadius.circular(30),

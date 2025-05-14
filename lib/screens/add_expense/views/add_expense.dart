@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:khutruke/screens/add_expense/views/categories.dart';
 
 class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
@@ -18,6 +20,7 @@ class _AddExpenseState extends State<AddExpense> {
   @override
   void initState() {
     dateController.text = DateFormat('EEE, MM/dd/yyyy').format(DateTime.now());
+    // expenseController.text = 'Rs 0.00';
     super.initState();
   }
 
@@ -27,18 +30,22 @@ class _AddExpenseState extends State<AddExpense> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'Add Expense',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-              ),
-              SizedBox(height: 32),
+              // Text(
+              //   'Add Expense',
+              //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+              // ),
+              // SizedBox(height: 32),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
                 child: TextFormField(
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                  ],
                   controller: expenseController,
                   decoration: InputDecoration(
                     filled: true,
@@ -48,8 +55,8 @@ class _AddExpenseState extends State<AddExpense> {
                       size: 16,
                       color: Colors.grey.shade600,
                     ),
-                    hintText: 'Enter Amount',
-                    hintStyle: TextStyle(color: Colors.grey.shade600),
+                    labelText: 'Enter Amount',
+                    labelStyle: TextStyle(color: Colors.grey.shade600),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
@@ -62,18 +69,9 @@ class _AddExpenseState extends State<AddExpense> {
                 controller: categoryController,
                 readOnly: true,
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            
-                          ],
-                        ),
-                      );
-                    },
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Categories()),
                   );
                 },
                 decoration: InputDecoration(
@@ -88,8 +86,8 @@ class _AddExpenseState extends State<AddExpense> {
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: 'Category',
-                  hintStyle: TextStyle(color: Colors.grey.shade600),
+                  labelText: 'Category',
+                  labelStyle: TextStyle(color: Colors.grey.shade600),
                   suffixIcon: Icon(
                     FontAwesomeIcons.caretDown,
                     size: 20,
@@ -135,6 +133,9 @@ class _AddExpenseState extends State<AddExpense> {
                 ),
               ),
               SizedBox(height: 32),
+
+              //for save button to move it to the bottom
+              Spacer(),
               SizedBox(
                 width: double.infinity,
                 height: kToolbarHeight,
