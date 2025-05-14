@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:khutruke/screens/add_expense/views/add_expense.dart';
+import 'package:khutruke/screens/add_expense/views/new_transaction.dart';
 import 'dart:math';
 import 'goal_screen.dart';
 import 'package:khutruke/screens/home/views/main_screen.dart';
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddExpense()),
+            MaterialPageRoute(builder: (context) => NewTransaction()),
           );
         },
         elevation: 8,

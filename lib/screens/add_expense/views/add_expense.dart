@@ -26,8 +26,6 @@ class _AddExpenseState extends State<AddExpense> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surface),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -63,6 +61,21 @@ class _AddExpenseState extends State<AddExpense> {
               TextFormField(
                 controller: categoryController,
                 readOnly: true,
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -77,29 +90,14 @@ class _AddExpenseState extends State<AddExpense> {
                   ),
                   hintText: 'Category',
                   hintStyle: TextStyle(color: Colors.grey.shade600),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            content: Column(
-                              children: [
-                                
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    icon: Icon(
-                      FontAwesomeIcons.caretDown,
-                      size: 20,
-                      color: Colors.grey.shade600,
-                    ),
+                  suffixIcon: Icon(
+                    FontAwesomeIcons.caretDown,
+                    size: 20,
+                    color: Colors.grey.shade600,
                   ),
                 ),
               ),
+
               SizedBox(height: 32),
               TextFormField(
                 controller: dateController,
