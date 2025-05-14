@@ -8,6 +8,15 @@ List<Map<String, dynamic>> transactionsData = [
     'date': 'Today',
     'price': 'NPR 250',
     'color': Colors.amber.shade800,
+    'isIncome': false,
+  },
+  {
+    'icon': FaIcon(FontAwesomeIcons.building, color: Colors.white),
+    'name': 'Dividend',
+    'date': 'Today',
+    'price': 'NPR 1680',
+    'color': Colors.green.shade800,
+    'isIncome': true,
   },
   {
     'icon': FaIcon(FontAwesomeIcons.plane, color: Colors.white),
@@ -15,6 +24,7 @@ List<Map<String, dynamic>> transactionsData = [
     'date': 'Today',
     'price': 'NPR 2800',
     'color': Colors.cyan.shade700,
+    'isIncome': false,
   },
   {
     'icon': FaIcon(FontAwesomeIcons.smoking, color: Colors.white),
@@ -22,6 +32,7 @@ List<Map<String, dynamic>> transactionsData = [
     'date': 'Today',
     'price': 'NPR 40',
     'color': Colors.pink.shade700,
+    'isIncome': false,
   },
   {
     'icon': FaIcon(FontAwesomeIcons.mugHot, color: Colors.white),
@@ -29,6 +40,7 @@ List<Map<String, dynamic>> transactionsData = [
     'date': 'Today',
     'price': 'NPR 170',
     'color': Colors.brown.shade700,
+    'isIncome': false,
   },
   {
     'icon': FaIcon(FontAwesomeIcons.film, color: Colors.white),
@@ -36,6 +48,15 @@ List<Map<String, dynamic>> transactionsData = [
     'date': 'Yesterday',
     'price': 'NPR 350',
     'color': Colors.deepPurple,
+    'isIncome': false,
+  },
+  {
+    'icon': FaIcon(FontAwesomeIcons.sackDollar, color: Colors.white),
+    'name': 'Salary',
+    'date': 'Yesterday',
+    'price': 'NPR 25000',
+    'color': Colors.green.shade800,
+    'isIncome': true,
   },
   {
     'icon': FaIcon(FontAwesomeIcons.smoking, color: Colors.white),
@@ -43,6 +64,7 @@ List<Map<String, dynamic>> transactionsData = [
     'date': 'Yesterday',
     'price': 'NPR 20',
     'color': Colors.pink.shade700,
+    'isIncome': false,
   },
   {
     'icon': FaIcon(FontAwesomeIcons.gasPump, color: Colors.white),
@@ -50,5 +72,6 @@ List<Map<String, dynamic>> transactionsData = [
     'date': 'Yesterday',
     'price': 'NPR 650',
     'color': Colors.amber.shade900,
+    'isIncome': false,
   },
 ];

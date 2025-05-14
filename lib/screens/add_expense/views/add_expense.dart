@@ -40,7 +40,7 @@ class _AddExpenseState extends State<AddExpense> {
               // ),
               // SizedBox(height: 32),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width,
                 child: TextFormField(
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
@@ -71,7 +71,13 @@ class _AddExpenseState extends State<AddExpense> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Categories()),
+                    MaterialPageRoute(
+                      builder: (context) => Categories(
+                        onCategorySelected: (selectedCategory) {
+                          categoryController.text = selectedCategory;
+                        },
+                      ),
+                    ),
                   );
                 },
                 decoration: InputDecoration(

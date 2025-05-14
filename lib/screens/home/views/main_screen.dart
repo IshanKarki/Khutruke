@@ -322,8 +322,15 @@ class _MainScreenState extends State<MainScreen> {
                                 Row(
                                   children: [
                                     Icon(
-                                      CupertinoIcons.arrowtriangle_down_fill,
-                                      color: Colors.red.shade900,
+                                      transactionsData[i]['isIncome']
+                                          ? CupertinoIcons
+                                              .arrowtriangle_down_fill
+                                          : CupertinoIcons
+                                              .arrowtriangle_up_fill,
+                                      color:
+                                          transactionsData[i]['isIncome']
+                                              ? Colors.green.shade800
+                                              : Colors.red.shade900,
                                       size: 14,
                                     ),
                                     SizedBox(width: 5),
@@ -331,7 +338,10 @@ class _MainScreenState extends State<MainScreen> {
                                       transactionsData[i]['price'],
                                       style: TextStyle(
                                         fontSize: 14,
-                                        color: Colors.red.shade900,
+                                        color:
+                                            transactionsData[i]['isIncome']
+                                                ? Colors.green.shade800
+                                                : Colors.red.shade800,
                                         fontWeight: FontWeight.w900,
                                       ),
                                     ),
