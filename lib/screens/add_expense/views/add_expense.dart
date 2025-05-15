@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -72,11 +74,12 @@ class _AddExpenseState extends State<AddExpense> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Categories(
-                        onCategorySelected: (selectedCategory) {
-                          categoryController.text = selectedCategory;
-                        },
-                      ),
+                      builder:
+                          (context) => Categories(
+                            onCategorySelected: (selectedCategory) {
+                              categoryController.text = selectedCategory;
+                            },
+                          ),
                     ),
                   );
                 },
@@ -142,19 +145,30 @@ class _AddExpenseState extends State<AddExpense> {
 
               //for save button to move it to the bottom
               Spacer(),
-              SizedBox(
+              Container(
                 width: double.infinity,
                 height: kToolbarHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Theme.of(context).colorScheme.primary,
+                      Theme.of(context).colorScheme.secondary,
+                      Theme.of(context).colorScheme.tertiary,
+                    ],
+                    transform: const GradientRotation(pi / 4),
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: TextButton(
                   onPressed: () {
                     print('Saved pressed');
                   },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
+                  // style: TextButton.styleFrom(
+                  //   backgroundColor: Theme.of(context).colorScheme.primary,
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(20),
+                  //   ),
+                  // ),
                   child: Text(
                     'Save',
                     style: TextStyle(

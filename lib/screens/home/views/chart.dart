@@ -21,6 +21,7 @@ class _MyChartState extends State<MyChart> {
       barRods: [
         BarChartRodData(
           color: Theme.of(context).colorScheme.primary,
+          borderRadius: BorderRadius.circular(2),
           toY: y,
           // gradient: LinearGradient(
           //   colors: [
@@ -30,7 +31,7 @@ class _MyChartState extends State<MyChart> {
           //   ],
           //   transform: const GradientRotation(pi / 40),
           // ),
-          width: 10,
+          width: 12,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 5,
