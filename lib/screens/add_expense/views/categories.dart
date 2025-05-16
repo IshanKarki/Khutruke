@@ -61,6 +61,7 @@ class _CategoriesState extends State<Categories> {
       'Jewelry & Watches',
     ],
     'Insurance & Financial': [
+      'EMIs',
       'Health Insurance',
       'Life Insurance',
       'Vehicle Insurance',
@@ -90,7 +91,7 @@ class _CategoriesState extends State<Categories> {
       'Souvenirs',
       'Tour Packages',
     ],
-    'Children & Family': [
+    'Children, Family & Friends': [
       'School Supplies',
       'Diapers & Baby Food',
       'Toys & Games',
