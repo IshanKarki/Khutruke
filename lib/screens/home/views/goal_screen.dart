@@ -1,7 +1,8 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class GoalScreen extends StatefulWidget {
@@ -12,33 +13,94 @@ class GoalScreen extends StatefulWidget {
 }
 
 class _GoalScreenState extends State<GoalScreen> {
+  final List<String> hintTexts = [
+    'What is your Goal?',
+    'DSLR Camera within 2 months',
+    'Electric Guitar in 5 weeks',
+    'Playstation 5 in 3 months',
+    'Smart TV in 1 month',
+    'A new washing machine in 4 weeks for my mom',
+    'Macbook M4 within 6 months',
+    'A new ride in the next 10 days',
+    'Vacation to Bali in maybe around 7 weeks',
+  ];
+
+  late String currentHint;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    currentHint = hintTexts[0];
+    _setRandomHint();
+    _timer = Timer.periodic(
+      const Duration(seconds: 4),
+      (_) => _setRandomHint(),
+    );
+  }
+
+  void _setRandomHint() {
+    setState(() {
+      // Keep changing until we get a different one
+      String newHint;
+      do {
+        newHint = hintTexts[Random().nextInt(hintTexts.length)];
+      } while (newHint == currentHint);
+      currentHint = newHint;
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildGoalCard(context),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              child: Column(
-                children: [
-                  _buildStreaksCard(context),
-                  const SizedBox(height: 20),
-                  _buildSavingGoalCard(context),
-                ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildGoalCard(context),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 20,
+                ),
+                child: Column(
+                  children: [
+                    _buildStreaksCard(context),
+                    const SizedBox(height: 20),
+                    _buildSavingGoalCard(context),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   double progressbarValue = 0.9;
+  final TextEditingController _searchController = TextEditingController();
+  bool showProgress = false;
+  String? goalText;
+
+  void _handleSubmitted(String value) {
+    if (value.trim().isEmpty) return;
+
+    setState(() {
+      goalText = value.trim();
+      showProgress = true;
+    });
+  }
 
   Widget _buildGoalCard(BuildContext context) {
     return Container(
@@ -49,12 +111,15 @@ class _GoalScreenState extends State<GoalScreen> {
           top: Radius.zero,
           bottom: Radius.circular(40),
         ),
+        image: DecorationImage(
+          image: AssetImage('assets/image.png'),
+          fit: BoxFit.cover,
+        ),
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).colorScheme.secondary,
             offset: Offset(0, 1),
-            blurRadius: 1,
-            spreadRadius: 1,
+            blurRadius: 10,
           ),
         ],
       ),
@@ -87,7 +152,7 @@ class _GoalScreenState extends State<GoalScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       child: Text(
                         "MAY",
@@ -165,46 +230,89 @@ class _GoalScreenState extends State<GoalScreen> {
             ),
           ),
           SizedBox(height: 30),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              LinearPercentIndicator(
-                animation: true,
-                lineHeight: 10.0,
-                percent: progressbarValue,
-                progressColor: Colors.white,
-                backgroundColor: Color.fromARGB(77, 255, 208, 239),
-                barRadius: const Radius.circular(10),
-              ),
-              const SizedBox(height: 6),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      "90% Saved",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    "10% Left",
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+          showProgress ? _buildLineProgress(context) : _buildSearchBar(context),
         ],
       ),
+    );
+  }
+
+  Widget _buildSearchBar(BuildContext context) {
+    return TextField(
+      controller: _searchController,
+      onSubmitted: _handleSubmitted,
+      style: TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        fillColor: Color.fromARGB(100, 255, 168, 226),
+        filled: true,
+        hintText: null,
+        prefixIcon: const Icon(Icons.search),
+        prefixIconColor: Colors.white,
+        suffixIcon: Icon(Icons.send),
+        suffixIconColor: Colors.white,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        label: AnimatedSwitcher(
+          duration: Duration(milliseconds: 500),
+          transitionBuilder:
+              (child, animation) =>
+                  FadeTransition(opacity: animation, child: child),
+          child: Text(
+            currentHint,
+            key: ValueKey(currentHint),
+            style: const TextStyle(
+              color: Colors.white,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLineProgress(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        LinearPercentIndicator(
+          animation: true,
+          lineHeight: 10.0,
+          percent: progressbarValue,
+          progressColor: Colors.white,
+          backgroundColor: Color.fromARGB(77, 255, 208, 239),
+          barRadius: const Radius.circular(10),
+        ),
+        const SizedBox(height: 6),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                "90% Saved",
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Text(
+              "10% Left",
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

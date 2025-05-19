@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class Categories extends StatefulWidget {
   final Function(String) onCategorySelected;
 
-  const Categories({Key? key, required this.onCategorySelected})
-    : super(key: key);
+  const Categories({super.key, required this.onCategorySelected});
 
   @override
   State<Categories> createState() => _CategoriesState();
@@ -119,7 +118,9 @@ class _CategoriesState extends State<Categories> {
   @override
   void initState() {
     super.initState();
-    _categories.keys.forEach((key) => _expanded[key] = false);
+    for (var key in _categories.keys) {
+      _expanded[key] = false;
+    }
   }
 
   @override
