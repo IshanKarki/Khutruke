@@ -114,6 +114,7 @@ class _GoalScreenState extends State<GoalScreen> {
         image: DecorationImage(
           image: AssetImage('assets/image.png'),
           fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(Colors.grey, BlendMode.multiply),
         ),
         boxShadow: [
           BoxShadow(
@@ -220,7 +221,7 @@ class _GoalScreenState extends State<GoalScreen> {
                 ),
                 child: ClipOval(
                   child: Image.asset(
-                    'assets/guitar_goal.gif',
+                    'assets/DSLR_Camera.png',
                     fit: BoxFit.contain,
                     height: double.infinity,
                     width: double.infinity,
