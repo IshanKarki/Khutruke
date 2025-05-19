@@ -17,6 +17,7 @@ class _CategoriesState extends State<Categories> {
       'Restaurant Foods',
       'Coffee/Tea',
       'Snacks & Beverages',
+      'Chocolates & Desserts',
     ],
     'Housing': [
       'Rent/Mortgage',
@@ -29,9 +30,9 @@ class _CategoriesState extends State<Categories> {
       'Electricity bills',
       'Water bills',
       'Internet/WiFi bills',
-      'Mobile Phone Plan',
       'Govt. Payments',
       'TV bills',
+      'Gas',
     ],
     'Transportation': [
       'Public Transport',
@@ -43,9 +44,8 @@ class _CategoriesState extends State<Categories> {
     ],
     'Health & Medical': [
       'Doctor Consultation',
-      'Prescription Medications',
-      'Therapy & Counseling',
-      'Health Supplements',
+      'Prescription Medicines',
+      'Therapy',
     ],
     'Personal Care': [
       'Gym & Diets',
@@ -62,20 +62,15 @@ class _CategoriesState extends State<Categories> {
     ],
     'Insurance & Financial': [
       'EMIs',
-      'Health Insurance',
-      'Life Insurance',
-      'Vehicle Insurance',
-      'Travel Insurance',
-      'Home/Property Insurance',
+      'Insurance',
       'Investment Fees',
-      'Banking Fees',
+      'Bank Fees',
     ],
     'Education & Learning': [
       'School/College Fees',
       'Online Courses',
       'Books & Study Materials',
-      'Educational Subscriptions',
-      'Dance/Zumba/Extracurricular Fees',
+      'Extracurricular Fees',
     ],
     'Entertainment': [
       'Subscriptions',
@@ -87,8 +82,6 @@ class _CategoriesState extends State<Categories> {
     'Travels & Ticketing': [
       'Flight Tickets',
       'Hotels',
-      'Visa & Immigration Fees',
-      'Souvenirs',
       'Tour Packages',
     ],
     'Children, Family & Friends': [
@@ -112,7 +105,7 @@ class _CategoriesState extends State<Categories> {
     'Emergencies & Unexpected': [
       'Emergency Fund Use',
       'Urgent Medical Expense',
-      'Personal Fines/Penalties',
+      'Fines/Penalties',
     ],
     'Other': [
       'Pet Food & Vet Visits',
