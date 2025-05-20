@@ -16,7 +16,7 @@ class MyAppView extends StatelessWidget {
           onSurface: Colors.black,
           primary: const Color(0xFFAA00FF),
           secondary: const Color(0xFFFF00AA),
-          tertiary: const Color.fromARGB(255, 255, 159, 99),
+          tertiary: const Color.fromARGB(255, 255, 111, 21),
           outline: const Color.fromARGB(255, 99, 99, 99),
         ),
         textTheme: GoogleFonts.interTextTheme(

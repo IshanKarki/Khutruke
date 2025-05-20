@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,16 +28,43 @@ class _GoalScreenState extends State<GoalScreen> {
 
   late String currentHint;
   Timer? _timer;
+  late ScrollController _scrollController;
+  bool _showFab = true;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        if (_showFab) {
+          setState(() {
+            _showFab = false;
+          });
+        }
+      } else if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        if (!_showFab) {
+          setState(() {
+            _showFab = true;
+          });
+        }
+      }
+    });
     currentHint = hintTexts[0];
     _setRandomHint();
     _timer = Timer.periodic(
       const Duration(seconds: 4),
       (_) => _setRandomHint(),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _timer?.cancel();
+    super.dispose();
   }
 
   void _setRandomHint() {
@@ -51,23 +79,17 @@ class _GoalScreenState extends State<GoalScreen> {
   }
 
   @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildGoalCard(context),
-              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -76,34 +98,43 @@ class _GoalScreenState extends State<GoalScreen> {
                 child: Column(
                   children: [
                     _buildStreaksCard(context),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 80),
                     _buildSavingGoalCard(context),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
             ],
           ),
         ),
-        floatingActionButton: ElevatedButton.icon(
-          onPressed: () {
-            //redirect to MiMi AI first then individual and then maybe group chat
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor:  Colors.black,
-            padding: const EdgeInsets.all(10),
-            elevation: 8,
-            shadowColor: Colors.deepPurpleAccent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          label: Image.asset('assets/MiMi.png', height: 50),
-        ),
+        floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+        floatingActionButton:
+            _showFab
+                ? ElevatedButton.icon(
+                  onPressed: () {
+                    //redirect to MiMi AI first then individual and then maybe group chat
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white70,
+                    padding: const EdgeInsets.all(10),
+                    elevation: 8,
+                    shadowColor: Colors.deepPurpleAccent,
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(10),
+                    // ),
+                  ),
+                  label: Image.asset(
+                    'assets/MiMi.png',
+                    height: 50,
+                    color: Colors.deepPurple,
+                  ),
+                )
+                : null,
       ),
     );
   }
 
-  double progressbarValue = 0.9;
+  double progressbarValue = 0.7;
   final TextEditingController _searchController = TextEditingController();
   bool showProgress = false;
   String? goalText;
@@ -336,8 +367,15 @@ class _GoalScreenState extends State<GoalScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade600,
+            offset: Offset(1, 1),
+            blurRadius: 4,
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -348,6 +386,13 @@ class _GoalScreenState extends State<GoalScreen> {
                 Icons.local_fire_department,
                 color: Theme.of(context).colorScheme.tertiary,
                 size: 36,
+                shadows: [
+                  Shadow(
+                    color: Theme.of(context).colorScheme.tertiary,
+                    offset: Offset(0, -3),
+                    blurRadius: 15,
+                  ),
+                ],
               ),
               const SizedBox(width: 10),
               Column(
@@ -356,15 +401,17 @@ class _GoalScreenState extends State<GoalScreen> {
                   Text(
                     "142 days",
                     style: GoogleFonts.poppins(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    "Steps streak",
+                    "Hot streak",
                     style: GoogleFonts.poppins(
-                      color: Colors.white70,
+                      color: Colors.black45,
                       fontSize: 13,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -374,49 +421,61 @@ class _GoalScreenState extends State<GoalScreen> {
           const SizedBox(height: 12),
           Text(
             "Daily Expense Limit:",
-            style: GoogleFonts.poppins(color: Colors.white, fontSize: 13),
+            style: GoogleFonts.poppins(
+              color: Colors.black,
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 4),
           LinearPercentIndicator(
             lineHeight: 8.0,
             percent: 363 / 550,
-            progressColor: Colors.white,
-            backgroundColor: Colors.white24,
+            progressColor: Theme.of(context).colorScheme.tertiary,
+            backgroundColor: const Color.fromARGB(49, 255, 86, 34),
             barRadius: const Radius.circular(10),
           ),
           const SizedBox(height: 6),
           Text(
             "363 / 550",
-            style: GoogleFonts.poppins(color: Colors.white70, fontSize: 13),
+            style: GoogleFonts.poppins(
+              color: Colors.black45,
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               for (final day in [
+                "Sun",
                 "Mon",
                 "Tue",
                 "Wed",
                 "Thu",
                 "Fri",
                 "Sat",
-                "Sun",
               ])
                 Column(
                   children: [
                     Icon(
                       Icons.check_circle,
                       color:
-                          ["Mon", "Tue", "Wed"].contains(day)
+                          ["Mon", "Tue", "Sun"].contains(day)
                               ? Theme.of(context).colorScheme.tertiary
-                              : Colors.white24,
+                              : Colors.black26,
                       size: 20,
                     ),
                     Text(
                       day,
                       style: GoogleFonts.poppins(
                         fontSize: 12,
-                        color: Colors.white70,
+                        fontWeight: FontWeight.bold,
+                        color:
+                            ["Mon", "Tue", "Sun"].contains(day)
+                                ? Theme.of(context).colorScheme.tertiary
+                                : Colors.black38,
                       ),
                     ),
                   ],
@@ -429,47 +488,85 @@ class _GoalScreenState extends State<GoalScreen> {
   }
 
   Widget _buildSavingGoalCard(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFDF7F0),
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              Image.asset('assets/money_bag.png', height: 100),
-              const SizedBox(height: 10),
-              Text(
-                "Savings Goal",
-                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 10),
-              LinearPercentIndicator(
-                lineHeight: 10.0,
-                percent: 0.4,
-                progressColor: Colors.deepPurple,
-                backgroundColor: Colors.deepPurple.shade100,
-                barRadius: const Radius.circular(10),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          padding: EdgeInsets.all(20),
+          height: 175,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 255, 241, 225),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: Offset(0, 4),
               ),
             ],
           ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
-              ),
-              child: Image.asset('assets/MiMi.png', height: 40),
+        ),
+        // Piggy Image Positioned in the center and popping out
+        Positioned(
+          top: -60, // this makes it appear above the card
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Image.asset(
+              'assets/happypig.png',
+              height: MediaQuery.of(context).size.width * 0.45,
+              fit: BoxFit.contain,
             ),
           ),
-        ],
-      ),
+        ),
+        // Add the overlay container as a Positioned widget if you want it to appear above the card
+        Positioned(
+          top: 50,
+          left: 10,
+          right: 10,
+          child: Container(
+            height: 100,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color.fromARGB(230, 255, 255, 255),
+            ),
+            child: Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Monthly Savings Goal",
+                    style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  LinearPercentIndicator(
+                    percent: 4800 / 12000,
+                    lineHeight: 8,
+                    alignment: MainAxisAlignment.start,
+                    progressColor: Theme.of(context).colorScheme.primary,
+                    animation: true,
+                    barRadius: Radius.circular(20),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "4812 / 12000",
+                    style: GoogleFonts.poppins(
+                      color: Colors.black45,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
