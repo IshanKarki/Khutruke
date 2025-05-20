@@ -78,11 +78,7 @@ class _CategoriesState extends State<Categories> {
       'Hobbies & Crafts',
       'Concerts & Clubs',
     ],
-    'Travels & Ticketing': [
-      'Flight Tickets',
-      'Hotels',
-      'Tour Packages',
-    ],
+    'Travels & Ticketing': ['Flight Tickets', 'Hotels', 'Tour Packages'],
     'Children, Family & Friends': [
       'School Supplies',
       'Diapers & Baby Food',
@@ -95,11 +91,15 @@ class _CategoriesState extends State<Categories> {
       'Charity/Donations',
       'Religious Offerings',
     ],
-    'Addictions/Habits': [
-      'Smoking',
-      'Alcohol',
+    'Habitual Spends': [
+      'Cigarette',
+      'Wine',
+      'Beer',
+      'Vodka',
+      'Whisky',
+      'Rum',
       'Pan Masala/Tobacco',
-      'Betting/Gambling',
+      'Betting',
     ],
     'Emergencies & Unexpected': [
       'Emergency Fund Use',

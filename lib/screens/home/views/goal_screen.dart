@@ -84,6 +84,21 @@ class _GoalScreenState extends State<GoalScreen> {
             ],
           ),
         ),
+        floatingActionButton: ElevatedButton.icon(
+          onPressed: () {
+            //redirect to MiMi AI first then individual and then maybe group chat
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor:  Colors.black,
+            padding: const EdgeInsets.all(10),
+            elevation: 8,
+            shadowColor: Colors.deepPurpleAccent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          label: Image.asset('assets/MiMi.png', height: 50),
+        ),
       ),
     );
   }

@@ -271,7 +271,7 @@ class _StatScreenState extends State<StatScreen> {
 
             const SizedBox(height: 24),
             const Text(
-              'Needs vs Wants vs Savings (Comparison)',
+              'Top Spending Categories compared to last month ',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
@@ -287,20 +287,21 @@ class _StatScreenState extends State<StatScreen> {
                         sections: [
                           PieChartSectionData(
                             value: 50,
-                            title: 'Needs',
-                            color: Colors.green.shade400,
+                            title:
+                                'Needs', //specific categories data rather than needs vs want vs savings
+                            color: Theme.of(context).colorScheme.secondary,
                             radius: 50,
                           ),
                           PieChartSectionData(
                             value: 30,
                             title: 'Wants',
-                            color: Colors.orange.shade400,
+                            color: Theme.of(context).colorScheme.tertiary,
                             radius: 45,
                           ),
                           PieChartSectionData(
                             value: 20,
                             title: 'Savings',
-                            color: Colors.blue.shade400,
+                            color: Theme.of(context).colorScheme.primary,
                             radius: 40,
                           ),
                         ],
@@ -342,37 +343,42 @@ class _StatScreenState extends State<StatScreen> {
                 ),
               ],
             ),
-
-            const SizedBox(height: 30),
-            Center(
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  //summaries
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                    vertical: 16,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  elevation: 6,
-                  shadowColor: Colors.deepPurpleAccent,
-                ),
-                icon: const Icon(Icons.auto_graph, color: Colors.white),
-                label: const Text(
-                  'View Summary',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
           ],
+        ),
+      ),
+      floatingActionButton: ElevatedButton.icon(
+        onPressed: () {
+          //summaries
+          //redirect to something closer to instagram stories to give a brief summary and overview of the user expenses
+          //involves data science and studies to show what the user loves,
+          //eg: user spent NPR 2000 in Food last week, out of which 90% of the expenses were Restaurant Foods,
+          //PINKY showing summary of this, also user spends NPR 500 on Smoking last week as well
+          //although thats just 25% of Food expenses, a significant less amount but
+          //the user has had just 3 meals accounting for 90% of the NPR 2000 eating Restaurant Foods,
+          //but the number of cigarette was 20, that means 1 cigarette = NPR 25,
+          //so this means although less in amount, the user loves cigarette is what the data shows and display that
+          //but also PINKY being PINKY sends suggestive insights not making them tell what to do like parents but like friends
+          //but not OVERDOING, we tell them who they are and they love to hear about themselves that the GOAL!!!
+          //appears after a month/week of using the app, month for better precision although should work to the expenses as of now
+          //eg: user has been using the app for 10 days now, so give the summary details for upto 10 days and how he is doing
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.deepPurple,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          elevation: 6,
+          shadowColor: Colors.deepPurpleAccent,
+        ),
+        icon: const Icon(Icons.auto_graph, color: Colors.white, size: 21),
+        label: const Text(
+          'View Summary',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
