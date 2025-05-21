@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "23299183351",
+    "project_id": "khutruke-piggy",
+    "storage_bucket": "khutruke-piggy.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23299183351:android:ee4edd56ec69709efe39f2",
+        "android_client_info": {
+          "package_name": "com.example.khutruke"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPIgOTDEqSChUYTpqD-MbebrhaJ4Y5JSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

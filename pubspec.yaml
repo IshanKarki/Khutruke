@@ -39,6 +39,7 @@ dependencies:
   fl_chart: ^0.71.0
   intl: ^0.20.2
   percent_indicator: ^4.2.5
+  firebase_core: ^3.13.1
 
 dev_dependencies:
   flutter_test:
