@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:khutruke/screens/add_expense/views/new_transaction.dart';
-import 'dart:math';
+// import 'package:khutruke/screens/add_expense/views/new_transaction.dart';
+import 'package:khutruke/screens/home/views/profile_screen.dart';
+// import 'dart:math';
 import 'goal_screen.dart';
 import 'package:khutruke/screens/home/views/main_screen.dart';
 
@@ -13,67 +14,44 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // var widgetList = [MainScreen(), StatScreen(), GoalScreen()];
+  int _selectedIndex = 0;
 
-  int index = 0;
+  // Your screens
+  final List<Widget> _screens = [MainScreen(), GoalScreen(), ProfileScreen()];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.amber,
-      // ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-        child: BottomNavigationBar(
-          onTap: (value) {
-            setState(() {
-              index = value;
-            });
-          },
-          backgroundColor: Colors.white,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.square_split_2x2_fill),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.flame_fill),
-              label: 'Analytics',
-            ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => NewTransaction()),
-          );
-        },
-        elevation: 8,
-        shape: const CircleBorder(),
-        child: Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.tertiary,
-                Theme.of(context).colorScheme.secondary,
-                Theme.of(context).colorScheme.primary,
-              ],
-              transform: GradientRotation(pi / 4),
-            ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        backgroundColor: Colors.white,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.square_split_2x2_fill),
+            label: 'Home',
           ),
-          child: Icon(CupertinoIcons.add),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.flame_fill),
+            label: 'Goals',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.person_fill),
+            label: 'Profile',
+          ),
+        ],
       ),
-      body: index == 0 ? MainScreen() : GoalScreen(),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      body: _screens[_selectedIndex],
     );
   }
 }

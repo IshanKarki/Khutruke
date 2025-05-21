@@ -84,27 +84,29 @@ class _GoalScreenState extends State<GoalScreen> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        body: SingleChildScrollView(
-          controller: _scrollController,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildGoalCard(context),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 20,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildGoalCard(context),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 20,
+                  ),
+                  child: Column(
+                    children: [
+                      _buildStreaksCard(context),
+                      const SizedBox(height: 80),
+                      _buildSavingGoalCard(context),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    _buildStreaksCard(context),
-                    const SizedBox(height: 80),
-                    _buildSavingGoalCard(context),
-                    const SizedBox(height: 20),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
