@@ -78,7 +78,13 @@ class _CategoriesState extends State<Categories> {
       'Hobbies & Crafts',
       'Concerts & Clubs',
     ],
-    'Travels & Ticketing': ['Flight Tickets', 'Hotels', 'Tour Packages'],
+    'Travels & Vacation': [
+      'Flight Tickets',
+      'Hotels',
+      'Tour Packages',
+      'Bus Tickets',
+      'Vacation Expenses',
+    ],
     'Children, Family & Friends': [
       'School Supplies',
       'Diapers & Baby Food',
