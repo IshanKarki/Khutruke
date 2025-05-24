@@ -34,49 +34,4 @@ class ExpenseService {
                   .toList(),
         );
   }
-
-  //creating a date range from start to end of current month
-  Future<double> getMonthlyTotal(DateTime now) async {
-    final start = DateTime(now.year, now.month, 1);
-    final end = DateTime(now.year, now.month + 1, 0);
-
-    //filters documents between start and end to calculate for the monthly expenses
-    final query =
-        await FirebaseFirestore.instance
-            .collection(_collection)
-            .where('date', isGreaterThanOrEqualTo: start)
-            .where('date', isLessThanOrEqualTo: end)
-            .get();
-
-    //sums up all expenses during that time period
-    double monthlyTotal = 0;
-    for (var doc in query.docs) {
-      monthlyTotal += (doc['amount'] as num).toDouble();
-    }
-
-    return monthlyTotal;
-  }
-
-  //for daily
-  Future<double> getDailyTotal(DateTime date) async {
-    final startOfDay = DateTime(date.year, date.month, date.day);
-    final endOfDay = startOfDay.add(Duration(days: 1));
-
-    final querySnapshot =
-        await _db
-            .collection(_collection)
-            .where(
-              'date',
-              isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay),
-            )
-            .where('date', isLessThan: Timestamp.fromDate(endOfDay))
-            .get();
-
-    double dailyTotal = 0.0;
-    for (var doc in querySnapshot.docs) {
-      dailyTotal += (doc['amount'] as num).toDouble();
-    }
-
-    return dailyTotal;
-  }
 }
