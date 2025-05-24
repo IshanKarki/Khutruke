@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:khutruke/screens/add_expense/views/categories.dart';
+import 'package:khutruke/src/expense.dart';
+import 'package:khutruke/src/expense_service.dart';
 
 class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
@@ -18,12 +20,85 @@ class _AddExpenseState extends State<AddExpense> {
   TextEditingController categoryController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   DateTime selectDate = DateTime.now();
+  final expenseService = ExpenseService();
+  bool isSaving = false;
 
   @override
   void initState() {
     dateController.text = DateFormat('EEE, MM/dd/yyyy').format(DateTime.now());
     // expenseController.text = 'Rs 0.00';
     super.initState();
+  }
+
+  Future<void> _saveExpense() async {
+    final amount = double.tryParse(expenseController.text);
+    final category = categoryController.text;
+    final date = selectDate;
+
+    if (amount != null && category.isNotEmpty) {
+      setState(() {
+        isSaving = true; // Start loading
+      });
+
+      final newExpense = Expense(
+        amount: amount,
+        category: category,
+        date: date,
+      );
+
+      try {
+        await expenseService.addExpense(newExpense);
+
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Expense Added Successfully!',
+              style: TextStyle(
+                color: Colors.green.shade700,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+
+        Navigator.pop(context);
+      } catch (e, stack) {
+        print('Error adding expense: $e');
+        print('Stack trace: $stack');
+
+        if (!mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Failed to save expense.',
+              style: TextStyle(
+                color: Colors.red.shade900,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      } finally {
+        if (mounted) {
+          setState(() {
+            isSaving = false; // Stop loading
+          });
+        }
+      }
+    } else {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Please fill all fields correctly.',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -160,23 +235,25 @@ class _AddExpenseState extends State<AddExpense> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: TextButton(
-                  onPressed: () {
-                    // print('Saved pressed');
-                  },
-                  // style: TextButton.styleFrom(
-                  //   backgroundColor: Theme.of(context).colorScheme.primary,
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20),
-                  //   ),
-                  // ),
-                  child: Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  onPressed: isSaving ? null : _saveExpense,
+                  child:
+                      isSaving
+                          ? SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                          : Text(
+                            'Save',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                 ),
               ),
             ],

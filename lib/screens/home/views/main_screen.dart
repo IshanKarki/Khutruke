@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:khutruke/data/data.dart';
 import 'package:khutruke/screens/add_expense/views/new_transaction.dart';
 import 'package:khutruke/screens/home/views/stat_screen.dart';
+import 'package:khutruke/src/expense_service.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -14,6 +15,34 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  // Add this line to define or get the expenseService instance
+  final expenseService = ExpenseService();
+
+  double monthlyTotal = 0.0;
+  double todayTotal = 0.0;
+  double yesterdayTotal = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData(); // Uncomment and implement _loadData() if needed
+  }
+
+  void _loadData() async {
+    final monthTotal = await expenseService.getMonthlyTotal(DateTime.now());
+    final dailyToday = await expenseService.getDailyTotal(DateTime.now());
+    final yesterday = await expenseService.getDailyTotal(
+      DateTime.now().subtract(Duration(days: 1)),
+    );
+    if (!mounted) return;
+
+    setState(() {
+      monthlyTotal = monthTotal;
+      todayTotal = dailyToday;
+      yesterdayTotal = yesterday;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,9 +159,9 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      const Text(
-                        'NPR 4,800.00',
-                        style: TextStyle(
+                      Text(
+                        'NPR ${monthlyTotal.toStringAsFixed(2)}',
+                        style: const TextStyle(
                           fontSize: 40,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -157,18 +186,18 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                   child: Center(
                                     child: Icon(
-                                      CupertinoIcons.arrowtriangle_down_fill,
+                                      CupertinoIcons.arrowtriangle_up_fill,
                                       size: 14,
-                                      color: Colors.greenAccent,
+                                      color: Colors.red.shade700,
                                     ),
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Daily Income',
+                                      "Yesterday",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.white,
@@ -176,7 +205,7 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                     ),
                                     Text(
-                                      'NPR 2,800.00',
+                                      'NPR ${yesterdayTotal.toStringAsFixed(2)}',
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.white,
@@ -205,11 +234,11 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Expenses Today',
+                                      "Today's Expenses",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.white,
@@ -217,7 +246,7 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                     ),
                                     Text(
-                                      'NPR 809.00',
+                                      'NPR ${todayTotal.toStringAsFixed(2)}',
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.white,
