@@ -55,6 +55,7 @@ class _MainScreenState extends State<MainScreen> {
 
             final expenses = snapshot.data;
             final now = DateTime.now();
+            final yesterday = now.subtract(Duration(days: 1));
             final monthlyExpenses = (expenses ?? []).where(
               (e) => e.date.year == now.year && e.date.month == now.month,
             );
@@ -73,6 +74,14 @@ class _MainScreenState extends State<MainScreen> {
                 )
                 .fold(0.0, (sum, e) => sum + e.amount);
 
+            final yesterdayTotal = (expenses ?? [])
+                .where(
+                  (e) =>
+                      e.date.year == yesterday.year &&
+                      e.date.month == yesterday.month &&
+                      e.date.day == yesterday.day,
+                )
+                .fold(0.0, (sum, e) => sum + e.amount);
             return Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 25.0,
