@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -14,7 +15,9 @@ import 'package:flutter/foundation.dart'
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
-/// 
+
+// final apiKey = dotenv.env['GOOGLE_API_KEY'];
+
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -41,8 +44,8 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDWN5vDc55v1BMbmdSW3A3_Lhqvs3lUDmY',
+  static FirebaseOptions web = FirebaseOptions(
+    apiKey: dotenv.env['GOOGLE_API_KEY'] ?? '',
     appId: '1:23299183351:web:58a63bca33e4a6d6fe39f2',
     messagingSenderId: '23299183351',
     projectId: 'khutruke-piggy',
@@ -51,16 +54,16 @@ class DefaultFirebaseOptions {
     measurementId: 'G-Y4Z4QJWJDX',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBPIgOTDEqSChUYTpqD-MbebrhaJ4Y5JSk',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['GOOGLE_API_KEY'] ?? '',
     appId: '1:23299183351:android:ee4edd56ec69709efe39f2',
     messagingSenderId: '23299183351',
     projectId: 'khutruke-piggy',
     storageBucket: 'khutruke-piggy.firebasestorage.app',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC5vO-WNJoojxqsf9xJv3mdFJp7IMdEU2A',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['GOOGLE_API_KEY'] ?? '',
     appId: '1:23299183351:ios:4796651b84e7d305fe39f2',
     messagingSenderId: '23299183351',
     projectId: 'khutruke-piggy',
@@ -68,8 +71,8 @@ class DefaultFirebaseOptions {
     iosBundleId: 'com.example.khutruke',
   );
 
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyC5vO-WNJoojxqsf9xJv3mdFJp7IMdEU2A',
+  static FirebaseOptions macos = FirebaseOptions(
+    apiKey: dotenv.env['GOOGLE_API_KEY'] ?? '',
     appId: '1:23299183351:ios:4796651b84e7d305fe39f2',
     messagingSenderId: '23299183351',
     projectId: 'khutruke-piggy',
@@ -77,8 +80,8 @@ class DefaultFirebaseOptions {
     iosBundleId: 'com.example.khutruke',
   );
 
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDWN5vDc55v1BMbmdSW3A3_Lhqvs3lUDmY',
+  static FirebaseOptions windows = FirebaseOptions(
+    apiKey: dotenv.env['GOOGLE_API_KEY'] ?? '',
     appId: '1:23299183351:web:c91150da81e5c213fe39f2',
     messagingSenderId: '23299183351',
     projectId: 'khutruke-piggy',
