@@ -422,7 +422,7 @@ class _GoalScreenState extends State<GoalScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            "Daily Expense Limit:",
+            "Today's Target",
             style: GoogleFonts.poppins(
               color: Colors.black,
               fontSize: 13,
