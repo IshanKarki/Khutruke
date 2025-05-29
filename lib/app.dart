@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:khutruke/firebase_options.dart';
+import 'package:khutruke/src/auth_screen.dart';
 import 'app_view.dart';
 
 class MyApp extends StatefulWidget {
@@ -24,21 +25,26 @@ class _MyAppState extends State<MyApp> {
   Future<void> _initialize() async {
     await dotenv.load();
 
-     try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } on FirebaseException catch (e) {
-    if (e.code != 'duplicate-app') {
-      rethrow; // Only rethrow if it's not the duplicate error
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    } on FirebaseException catch (e) {
+      if (e.code != 'duplicate-app') {
+        rethrow; // Only rethrow if it's not the duplicate error
+      }
+      // else: safely ignore duplicate-app error
     }
-    // else: safely ignore duplicate-app error
-  }
 
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      await FirebaseAuth.instance.signInAnonymously();
-    }
+    // final user = FirebaseAuth.instance.currentUser;
+    // if (user == null) {
+    //   // await FirebaseAuth.instance.signInAnonymously();
+    //   await Navigator.of(
+    //     context,
+    //   ).push(MaterialPageRoute(builder: (_) => AuthScreen()));
+    // }
+
+    await FirebaseAuth.instance.signOut();
 
     setState(() => _isReady = true);
   }
@@ -46,16 +52,23 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     if (!_isReady) {
-      return MaterialApp(
-        home: Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        ),
-      );
+      return Center(child: CircularProgressIndicator());
     }
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyAppView(), // your actual app
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Scaffold(body: Center(child: CircularProgressIndicator()));
+          }
+
+          final user = snapshot.data;
+
+          return user == null ? AuthScreen() : MyAppView();
+        },
+      ),
     );
   }
 }

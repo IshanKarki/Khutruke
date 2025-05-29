@@ -12,7 +12,12 @@
           "package_name": "com.example.khutruke"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "23299183351-i5ju0mn87l1qjj85ivnojh6s2utkq502.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBPIgOTDEqSChUYTpqD-MbebrhaJ4Y5JSk"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23299183351-i5ju0mn87l1qjj85ivnojh6s2utkq502.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "23299183351-4m0hl0aqoukr4p061ibj1n7muq6dbolb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.khutruke"
+              }
+            }
+          ]
         }
       }
     }
