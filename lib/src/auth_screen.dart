@@ -50,6 +50,11 @@ class AuthScreen extends StatelessWidget {
     }
   }
 
+  //currently sign in with Google is not working, see more on that later, Now
+  //move forward with saving monthly and daily expense, and updating the expense
+  //transactions screen with the added expense by the user in real time.
+
+
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
