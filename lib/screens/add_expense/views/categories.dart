@@ -26,6 +26,29 @@ Widget getCategoryIcon(String category) {
       return FaIcon(FontAwesomeIcons.plane, color: Colors.white);
     case 'movies':
       return FaIcon(FontAwesomeIcons.film, color: Colors.white);
+    case 'furniture & decor':
+      return FaIcon(FontAwesomeIcons.couch, color: Colors.white);
+    case 'chocolates & desserts':
+      return FaIcon(FontAwesomeIcons.cookieBite, color: Colors.white);
+    case 'restaurant foods':
+    case 'snacks & beverages':
+      return FaIcon(FontAwesomeIcons.burger, color: Colors.white);
+    case 'rent/mortgage':
+    case 'tax':
+      return FaIcon(FontAwesomeIcons.hotel, color: Colors.white);
+    case 'home repair/maintenance/supplies':
+      return FaIcon(
+        FontAwesomeIcons.houseCircleExclamation,
+        color: Colors.white,
+      );
+    case 'gardening & plants':
+      return FaIcon(FontAwesomeIcons.leaf, color: Colors.white);
+    case 'water bills':
+      return FaIcon(FontAwesomeIcons.faucetDrip, color: Colors.white);
+    case 'internet/wifi bills':
+      return FaIcon(FontAwesomeIcons.wifi, color: Colors.white);
+    case 'govt. bills':
+      return FaIcon(FontAwesomeIcons.wallet, color: Colors.white);
     default:
       return FaIcon(FontAwesomeIcons.icons, color: Colors.white);
   }
@@ -36,17 +59,32 @@ Color getCategoryColor(String category) {
     case 'electricity bills':
       return Colors.amber.shade800;
     case 'groceries':
+    case 'gardening & plants':
       return Colors.green.shade700;
     case 'cigarette':
       return Colors.pink.shade700;
     case 'coffee/tea':
+    case 'chocolates & desserts':
+    case 'furniture & decor':
       return Colors.brown.shade700;
     case 'petrol/diesel':
       return Colors.amber.shade900;
     case 'flight tickets':
       return Colors.cyan.shade700;
     case 'movies':
-      return Colors.deepPurple;
+      return const Color.fromARGB(255, 17, 4, 39);
+    case 'restaurant foods':
+    case 'snacks & beverages':
+      return Colors.redAccent.shade700;
+    case 'rent/mortgage':
+    case 'tax':
+    case 'home repair/maintenance/supplies':
+      return Colors.red.shade900;
+    case 'water bills':
+    case 'internet/wifi bills':
+      return Colors.blueAccent;
+    case 'govt. bills':
+      return Colors.blueGrey;
     default:
       return Colors.cyan;
   }
@@ -72,7 +110,7 @@ class _CategoriesState extends State<Categories> {
       'Electricity bills',
       'Water bills',
       'Internet/WiFi bills',
-      'Govt. Payments',
+      'Govt. bills',
       'TV bills',
       'Gas',
     ],
