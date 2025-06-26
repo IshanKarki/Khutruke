@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Categories extends StatefulWidget {
   final Function(String) onCategorySelected;
@@ -7,6 +8,48 @@ class Categories extends StatefulWidget {
 
   @override
   State<Categories> createState() => _CategoriesState();
+}
+
+Widget getCategoryIcon(String category) {
+  switch (category.toLowerCase()) {
+    case 'electricity bills':
+      return FaIcon(FontAwesomeIcons.solidLightbulb, color: Colors.white);
+    case 'groceries':
+      return FaIcon(FontAwesomeIcons.cartShopping, color: Colors.white);
+    case 'cigarette':
+      return FaIcon(FontAwesomeIcons.smoking, color: Colors.white);
+    case 'coffee/tea':
+      return FaIcon(FontAwesomeIcons.mugHot, color: Colors.white);
+    case 'petrol/diesel':
+      return FaIcon(FontAwesomeIcons.gasPump, color: Colors.white);
+    case 'flight tickets':
+      return FaIcon(FontAwesomeIcons.plane, color: Colors.white);
+    case 'movies':
+      return FaIcon(FontAwesomeIcons.film, color: Colors.white);
+    default:
+      return FaIcon(FontAwesomeIcons.icons, color: Colors.white);
+  }
+}
+
+Color getCategoryColor(String category) {
+  switch (category.toLowerCase()) {
+    case 'electricity bills':
+      return Colors.amber.shade800;
+    case 'groceries':
+      return Colors.green.shade700;
+    case 'cigarette':
+      return Colors.pink.shade700;
+    case 'coffee/tea':
+      return Colors.brown.shade700;
+    case 'petrol/diesel':
+      return Colors.amber.shade900;
+    case 'flight tickets':
+      return Colors.cyan.shade700;
+    case 'movies':
+      return Colors.deepPurple;
+    default:
+      return Colors.cyan;
+  }
 }
 
 class _CategoriesState extends State<Categories> {
@@ -73,7 +116,7 @@ class _CategoriesState extends State<Categories> {
     ],
     'Entertainment': [
       'Subscriptions',
-      'Movies & Events',
+      'Movies',
       'Video Games',
       'Hobbies & Crafts',
       'Concerts & Clubs',

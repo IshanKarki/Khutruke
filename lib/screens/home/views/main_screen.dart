@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:math';
 
-import 'package:khutruke/data/data.dart';
+// import 'package:khutruke/data/data.dart';
+import 'package:khutruke/screens/add_expense/views/categories.dart';
 import 'package:khutruke/screens/add_expense/views/new_transaction.dart';
 import 'package:khutruke/screens/home/views/stat_screen.dart';
 import 'package:khutruke/src/expense.dart';
@@ -51,7 +53,15 @@ class _MainScreenState extends State<MainScreen> {
         child: StreamBuilder<List<Expense>>(
           stream: expenseService.getExpenses(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) return CircularProgressIndicator();
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            //understand ! in both cases, you know how
+            // print('Snapshot data: ${snapshot.data}');
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(child: Text('No transactions yet.'));
+            }
 
             final expenses = snapshot.data;
             final now = DateTime.now();
@@ -333,114 +343,117 @@ class _MainScreenState extends State<MainScreen> {
                     ],
                   ),
                   const SizedBox(height: 20),
+
                   Expanded(
                     child: ListView.builder(
-                      itemCount: transactionsData.length,
+                      itemCount: expenses!.length,
                       itemBuilder: (context, int i) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 2),
-                                  color: Colors.grey.shade300,
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  transactionsData[i]['color'],
-                                              shape: BoxShape.circle,
-                                            ),
-                                          ),
-                                          transactionsData[i]['icon'],
-                                          // Icon(
-                                          //   transactionsData[i]['icon'],
-                                          //   color: Colors.white,
-                                          // ),
-                                        ],
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Text(
-                                        transactionsData[i]['name'],
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.onSurface,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            transactionsData[i]['isIncome']
-                                                ? CupertinoIcons
-                                                    .arrowtriangle_down_fill
-                                                : CupertinoIcons
-                                                    .arrowtriangle_up_fill,
-                                            color:
-                                                transactionsData[i]['isIncome']
-                                                    ? Colors.green.shade800
-                                                    : Colors.red.shade900,
-                                            size: 14,
-                                          ),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            transactionsData[i]['price'],
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color:
-                                                  transactionsData[i]['isIncome']
-                                                      ? Colors.green.shade800
-                                                      : Colors.red.shade800,
-                                              fontWeight: FontWeight.w900,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        transactionsData[i]['date'],
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.outline,
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
+                        final expense = expenses[i];
+                        return _buildTransactionTile(expense);
+                        // return Padding(
+                        //   padding: const EdgeInsets.only(bottom: 16.0),
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       color: Colors.white,
+                        //       borderRadius: BorderRadius.circular(12),
+                        //       boxShadow: [
+                        //         BoxShadow(
+                        //           blurRadius: 3,
+                        //           offset: const Offset(0, 2),
+                        //           color: Colors.grey.shade300,
+                        //         ),
+                        //       ],
+                        //     ),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.all(16.0),
+                        //       child: Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         children: [
+                        //           Row(
+                        //             children: [
+                        //               Stack(
+                        //                 alignment: Alignment.center,
+                        //                 children: [
+                        //                   Container(
+                        //                     width: 50,
+                        //                     height: 50,
+                        //                     decoration: BoxDecoration(
+                        //                       color:
+                        //                           transactionsData[i]['color'],
+                        //                       shape: BoxShape.circle,
+                        //                     ),
+                        //                   ),
+                        //                   transactionsData[i]['icon'],
+                        //                   // Icon(
+                        //                   //   transactionsData[i]['icon'],
+                        //                   //   color: Colors.white,
+                        //                   // ),
+                        //                 ],
+                        //               ),
+                        //               const SizedBox(width: 12),
+                        //               Text(
+                        //                 transactionsData[i]['name'],
+                        //                 style: TextStyle(
+                        //                   fontSize: 14,
+                        //                   color:
+                        //                       Theme.of(
+                        //                         context,
+                        //                       ).colorScheme.onSurface,
+                        //                   fontWeight: FontWeight.bold,
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //           Column(
+                        //             crossAxisAlignment: CrossAxisAlignment.end,
+                        //             children: [
+                        //               Row(
+                        //                 children: [
+                        //                   Icon(
+                        //                     transactionsData[i]['isIncome']
+                        //                         ? CupertinoIcons
+                        //                             .arrowtriangle_down_fill
+                        //                         : CupertinoIcons
+                        //                             .arrowtriangle_up_fill,
+                        //                     color:
+                        //                         transactionsData[i]['isIncome']
+                        //                             ? Colors.green.shade800
+                        //                             : Colors.red.shade900,
+                        //                     size: 14,
+                        //                   ),
+                        //                   SizedBox(width: 5),
+                        //                   Text(
+                        //                     transactionsData[i]['price'],
+                        //                     style: TextStyle(
+                        //                       fontSize: 14,
+                        //                       color:
+                        //                           transactionsData[i]['isIncome']
+                        //                               ? Colors.green.shade800
+                        //                               : Colors.red.shade800,
+                        //                       fontWeight: FontWeight.w900,
+                        //                     ),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //               Text(
+                        //                 transactionsData[i]['date'],
+                        //                 style: TextStyle(
+                        //                   fontSize: 14,
+                        //                   color:
+                        //                       Theme.of(
+                        //                         context,
+                        //                       ).colorScheme.outline,
+                        //                   fontWeight: FontWeight.w300,
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // );
                       },
                     ),
                   ),
@@ -474,6 +487,95 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           child: Icon(CupertinoIcons.add),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTransactionTile(Expense expense) {
+    final icon = getCategoryIcon(expense.category);
+    final color = getCategoryColor(expense.category);
+    final formattedDate = DateFormat('MMM d').format(expense.date);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 3,
+              offset: const Offset(0, 2),
+              color: Colors.grey.shade300,
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      icon,
+                    ],
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    expense.category,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        CupertinoIcons.arrowtriangle_up_fill,
+                        color: Colors.red.shade900,
+                        size: 14,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        'NPR ${expense.amount.toStringAsFixed(0)}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.red.shade800,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    formattedDate,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.outline,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
