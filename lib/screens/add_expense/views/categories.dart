@@ -48,7 +48,67 @@ Widget getCategoryIcon(String category) {
     case 'internet/wifi bills':
       return FaIcon(FontAwesomeIcons.wifi, color: Colors.white);
     case 'govt. bills':
-      return FaIcon(FontAwesomeIcons.wallet, color: Colors.white);
+    case 'emis':
+    case 'insurance':
+    case 'bank fees':
+    case 'investment fees':
+      return FaIcon(FontAwesomeIcons.buildingColumns, color: Colors.white);
+    case 'tv bills':
+      return FaIcon(FontAwesomeIcons.tv, color: Colors.white);
+    case 'gas':
+      return FaIcon(FontAwesomeIcons.fireBurner, color: Colors.white);
+    case 'public transport':
+      return FaIcon(FontAwesomeIcons.trainSubway, color: Colors.white);
+    case 'pathao/indrives':
+      return FaIcon(FontAwesomeIcons.taxi, color: Colors.white);
+    case 'parking fees':
+      return FaIcon(FontAwesomeIcons.squareParking, color: Colors.white);
+    case 'vehicle servicing':
+    case 'vehicle accessories':
+      return FaIcon(FontAwesomeIcons.carBurst, color: Colors.white);
+    case 'doctor consultation':
+    case 'therapy':
+      return FaIcon(FontAwesomeIcons.userDoctor, color: Colors.white);
+    case 'prescription medicines':
+      return FaIcon(FontAwesomeIcons.pills, color: Colors.white);
+    case 'gym & diets':
+      return FaIcon(FontAwesomeIcons.dumbbell, color: Colors.white);
+    case 'haircuts & grooming':
+    case 'skincare & beauty':
+      return FaIcon(FontAwesomeIcons.handHoldingHeart, color: Colors.white);
+    case 'work clothes':
+    case 'seasonal wear':
+    case 'casual clothing':
+      return FaIcon(FontAwesomeIcons.shirt, color: Colors.white);
+    case 'shoes & footwear':
+      return FaIcon(FontAwesomeIcons.shoePrints, color: Colors.white);
+    case 'fashion accessories':
+      return FaIcon(FontAwesomeIcons.glasses, color: Colors.white);
+    case 'jewelry & watches':
+      return FaIcon(FontAwesomeIcons.gem, color: Colors.white);
+    case 'school/college fees':
+    case 'online courses':
+    case 'books & study materials':
+    case 'extracurricular fees':
+      return FaIcon(FontAwesomeIcons.book, color: Colors.white);
+    case 'hotels':
+    case 'tour packages':
+    case 'vacation expenses':
+      return FaIcon(FontAwesomeIcons.hotel, color: Colors.white);
+    case 'bus tickets':
+      return FaIcon(FontAwesomeIcons.bus, color: Colors.white);
+    case 'wine':
+      return FaIcon(FontAwesomeIcons.champagneGlasses, color: Colors.white);
+      case 'beer':
+      return FaIcon(FontAwesomeIcons.beerMugEmpty, color: Colors.white);
+      case 'vodka':
+      return FaIcon(FontAwesomeIcons.martiniGlassCitrus, color: Colors.white);
+      case 'whisky':
+      return FaIcon(FontAwesomeIcons.whiskeyGlass, color: Colors.white);
+      case 'rum':
+      return FaIcon(FontAwesomeIcons.wineBottle, color: Colors.white);
+      case 'betting':
+      return FaIcon(FontAwesomeIcons.handshake, color: Colors.white);
     default:
       return FaIcon(FontAwesomeIcons.icons, color: Colors.white);
   }
@@ -57,33 +117,65 @@ Widget getCategoryIcon(String category) {
 Color getCategoryColor(String category) {
   switch (category.toLowerCase()) {
     case 'electricity bills':
-      return Colors.amber.shade800;
+    case 'tv bills':
+      return Colors.yellow.shade800;
     case 'groceries':
     case 'gardening & plants':
+    case 'doctor consultation':
+    case 'prescription medicines':
+    case 'therapy':
+    case 'pan masala/tobacco':
       return Colors.green.shade700;
     case 'cigarette':
+    case 'wine':
+    case 'vodka':
+    case 'whisky':
+    case 'rum':
       return Colors.pink.shade700;
     case 'coffee/tea':
     case 'chocolates & desserts':
     case 'furniture & decor':
       return Colors.brown.shade700;
     case 'petrol/diesel':
-      return Colors.amber.shade900;
+    case 'gas':
+    case 'public transport':
+    case 'pathao/indrives':
+    case 'fashion accessories':
+    case 'jewelry & watches':
+    case 'beer':
+      return Colors.deepOrange;
     case 'flight tickets':
+    case 'parking fees':
+    case 'hotels':
+    case 'tour packages':
+    case 'vacation expenses':
+    case 'bus tickets':
       return Colors.cyan.shade700;
     case 'movies':
-      return const Color.fromARGB(255, 17, 4, 39);
+      return Colors.deepPurple;
     case 'restaurant foods':
     case 'snacks & beverages':
+    case 'gym & diets':
       return Colors.redAccent.shade700;
     case 'rent/mortgage':
     case 'tax':
     case 'home repair/maintenance/supplies':
+    case 'vehicle servicing':
+    case 'vehicle accessories':
       return Colors.red.shade900;
     case 'water bills':
     case 'internet/wifi bills':
+    case 'betting':
       return Colors.blueAccent;
     case 'govt. bills':
+    case 'work clothes':
+    case 'seasonal wear':
+    case 'casual clothing':
+    case 'shoes & footwear':
+    case 'emis':
+    case 'insurance':
+    case 'bank fees':
+    case 'investment fees':
       return Colors.blueGrey;
     default:
       return Colors.cyan;
