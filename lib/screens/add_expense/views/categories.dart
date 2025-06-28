@@ -108,7 +108,7 @@ Widget getCategoryIcon(String category) {
       case 'rum':
       return FaIcon(FontAwesomeIcons.wineBottle, color: Colors.white);
       case 'betting':
-      return FaIcon(FontAwesomeIcons.handshakeAngle, color: Colors.white);
+      return FaIcon(FontAwesomeIcons.handshake, color: Colors.white);
     default:
       return FaIcon(FontAwesomeIcons.icons, color: Colors.white);
   }
