@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -31,6 +33,7 @@ Widget getCategoryIcon(String category) {
     case 'chocolates & desserts':
       return FaIcon(FontAwesomeIcons.cookieBite, color: Colors.white);
     case 'restaurant foods':
+      return FaIcon(FontAwesomeIcons.utensils, color: Colors.white);
     case 'snacks & beverages':
       return FaIcon(FontAwesomeIcons.burger, color: Colors.white);
     case 'rent/mortgage':
@@ -99,15 +102,13 @@ Widget getCategoryIcon(String category) {
       return FaIcon(FontAwesomeIcons.bus, color: Colors.white);
     case 'wine':
       return FaIcon(FontAwesomeIcons.champagneGlasses, color: Colors.white);
-      case 'beer':
+    case 'beer':
       return FaIcon(FontAwesomeIcons.beerMugEmpty, color: Colors.white);
-      case 'vodka':
+    case 'vodka':
       return FaIcon(FontAwesomeIcons.martiniGlassCitrus, color: Colors.white);
-      case 'whisky':
+    case 'whisky/rum':
       return FaIcon(FontAwesomeIcons.whiskeyGlass, color: Colors.white);
-      case 'rum':
-      return FaIcon(FontAwesomeIcons.wineBottle, color: Colors.white);
-      case 'betting':
+    case 'betting':
       return FaIcon(FontAwesomeIcons.handshake, color: Colors.white);
     default:
       return FaIcon(FontAwesomeIcons.icons, color: Colors.white);
@@ -129,8 +130,7 @@ Color getCategoryColor(String category) {
     case 'cigarette':
     case 'wine':
     case 'vodka':
-    case 'whisky':
-    case 'rum':
+    case 'whisky/rum':
       return Colors.pink.shade700;
     case 'coffee/tea':
     case 'chocolates & desserts':
@@ -178,7 +178,12 @@ Color getCategoryColor(String category) {
     case 'investment fees':
       return Colors.blueGrey;
     default:
-      return Colors.cyan;
+      return HSLColor.fromAHSL(
+        1,
+        Random().nextDouble() * 360,
+        0.9,
+        0.4,
+      ).toColor();
   }
 }
 
@@ -190,6 +195,7 @@ class _CategoriesState extends State<Categories> {
       'Coffee/Tea',
       'Snacks & Beverages',
       'Chocolates & Desserts',
+      '',
     ],
     'Housing': [
       'Rent/Mortgage',
@@ -275,8 +281,7 @@ class _CategoriesState extends State<Categories> {
       'Wine',
       'Beer',
       'Vodka',
-      'Whisky',
-      'Rum',
+      'Whisky/Rum',
       'Pan Masala/Tobacco',
       'Betting',
     ],
