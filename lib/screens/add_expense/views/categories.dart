@@ -20,7 +20,8 @@ Widget getCategoryIcon(String category) {
       return FaIcon(FontAwesomeIcons.cartShopping, color: Colors.white);
     case 'cigarette':
       return FaIcon(FontAwesomeIcons.smoking, color: Colors.white);
-    case 'coffee/tea':
+    case 'coffee':
+    case 'tea':
       return FaIcon(FontAwesomeIcons.mugHot, color: Colors.white);
     case 'petrol/diesel':
       return FaIcon(FontAwesomeIcons.gasPump, color: Colors.white);
@@ -132,7 +133,8 @@ Color getCategoryColor(String category) {
     case 'vodka':
     case 'whisky/rum':
       return Colors.pink.shade700;
-    case 'coffee/tea':
+    case 'coffee':
+    case 'tea':
     case 'chocolates & desserts':
     case 'furniture & decor':
       return Colors.brown.shade700;
@@ -191,8 +193,9 @@ class _CategoriesState extends State<Categories> {
   final Map<String, List<String>> _categories = {
     'Food & Drinks': [
       'Groceries',
+      'Coffee',
+      'Tea',
       'Restaurant Foods',
-      'Coffee/Tea',
       'Snacks & Beverages',
       'Chocolates & Desserts',
       '',
