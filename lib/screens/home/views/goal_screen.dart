@@ -539,7 +539,7 @@ class _GoalScreenState extends State<GoalScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Monthly Savings Goal",
+                    "Khutruke Vault",
                     style: GoogleFonts.poppins(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,

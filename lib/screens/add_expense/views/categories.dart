@@ -31,8 +31,10 @@ Widget getCategoryIcon(String category) {
       return FaIcon(FontAwesomeIcons.film, color: Colors.white);
     case 'furniture & decor':
       return FaIcon(FontAwesomeIcons.couch, color: Colors.white);
-    case 'chocolates & desserts':
+    case 'chocolates & sweets':
       return FaIcon(FontAwesomeIcons.cookieBite, color: Colors.white);
+    case 'ice cream & desserts':
+      return FaIcon(FontAwesomeIcons.iceCream, color: Colors.white);
     case 'restaurant foods':
       return FaIcon(FontAwesomeIcons.utensils, color: Colors.white);
     case 'snacks & beverages':
@@ -135,7 +137,7 @@ Color getCategoryColor(String category) {
       return Colors.pink.shade700;
     case 'coffee':
     case 'tea':
-    case 'chocolates & desserts':
+    case 'chocolates & sweets':
     case 'furniture & decor':
       return Colors.brown.shade700;
     case 'petrol/diesel':
@@ -197,8 +199,8 @@ class _CategoriesState extends State<Categories> {
       'Tea',
       'Restaurant Foods',
       'Snacks & Beverages',
-      'Chocolates & Desserts',
-      '',
+      'Chocolates & Sweets',
+      'Ice Cream & Desserts',
     ],
     'Housing': [
       'Rent/Mortgage',
@@ -310,8 +312,28 @@ class _CategoriesState extends State<Categories> {
     }
   }
 
+  String _searchQuery = '';
+
   @override
   Widget build(BuildContext context) {
+    final isSearching = _searchQuery.isNotEmpty;
+    // Filtered categories during search
+    final filteredCategories =
+        isSearching
+            ? Map.fromEntries(
+                _categories.entries
+                    .map((entry) => MapEntry(
+                          entry.key,
+                          entry.value
+                              .where((subCat) => subCat
+                                  .toLowerCase()
+                                  .contains(_searchQuery.toLowerCase()))
+                              .toList(),
+                        ))
+                    .where((entry) => entry.value.isNotEmpty),
+              )
+            : _categories;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Top Categories'), centerTitle: true),
       body: Padding(
@@ -329,6 +351,8 @@ class _CategoriesState extends State<Categories> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
+                    onChanged:
+                        (value) => setState(() => _searchQuery = value.trim()),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -342,36 +366,37 @@ class _CategoriesState extends State<Categories> {
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: ListView(
-                children:
-                    _categories.keys.map((category) {
-                      return ExpansionTile(
-                        title: Text(
-                          category,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        initiallyExpanded: _expanded[category]!,
-                        onExpansionChanged: (expanded) {
-                          setState(() {
-                            _expanded[category] = expanded;
-                          });
-                        },
+              child:
+                  filteredCategories.isEmpty
+                      ? const Center(child: Text('No matches found.'))
+                      : ListView(
                         children:
-                            _categories[category]!
-                                .map(
-                                  (subCat) => ListTile(
-                                    title: Text(subCat),
-                                    leading: const Icon(Icons.label_outline),
-                                    onTap: () {
-                                      widget.onCategorySelected(subCat);
-                                      Navigator.pop(context);
-                                    },
+                            filteredCategories.entries.map((entry) {
+                              return ExpansionTile(
+                                title: Text(
+                                  entry.key,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                )
-                                .toList(),
-                      );
-                    }).toList(),
-              ),
+                                ),
+                                initiallyExpanded:
+                                    isSearching, // force open if searching
+                                children:
+                                    entry.value.map((subCat) {
+                                      return ListTile(
+                                        leading: const Icon(
+                                          Icons.label_outline,
+                                        ),
+                                        title: Text(subCat),
+                                        onTap: () {
+                                          widget.onCategorySelected(subCat);
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                    }).toList(),
+                              );
+                            }).toList(),
+                      ),
             ),
           ],
         ),

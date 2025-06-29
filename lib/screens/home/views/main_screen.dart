@@ -95,7 +95,7 @@ Widget buildTransactionTile(BuildContext context, Expense expense) {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      'NPR ${expense.amount.toStringAsFixed(0)}',
+                      'NPR ${expense.amount.toStringAsFixed(2)}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.red.shade800,
@@ -457,7 +457,10 @@ class _MainScreenState extends State<MainScreen> {
                             ],
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             child: Text(
                               'View All',
                               style: GoogleFonts.roboto(

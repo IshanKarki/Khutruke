@@ -34,8 +34,9 @@ class _AddExpenseState extends State<AddExpense> {
     final amount = double.tryParse(expenseController.text);
     final category = categoryController.text;
     final date = selectDate;
+    
 
-    if (amount != null && category.isNotEmpty) {
+    if ((amount != null && amount > 0.0) && category.isNotEmpty) {
       setState(() {
         isSaving = true; // Start loading
       });
@@ -93,7 +94,7 @@ class _AddExpenseState extends State<AddExpense> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Please fill all fields correctly.',
+            'Please fill all fields correctly. Note: Please enter an amount greater than 0.',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
