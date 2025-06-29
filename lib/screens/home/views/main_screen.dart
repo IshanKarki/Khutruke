@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
 
 // import 'package:khutruke/data/data.dart';
 import 'package:khutruke/screens/add_expense/views/categories.dart';
 import 'package:khutruke/screens/add_expense/views/new_transaction.dart';
+import 'package:khutruke/screens/home/views/all_transactions.dart';
 import 'package:khutruke/screens/home/views/stat_screen.dart';
 import 'package:khutruke/src/expense.dart';
 import 'package:khutruke/src/expense_service.dart';
@@ -15,6 +17,108 @@ class MainScreen extends StatefulWidget {
 
   @override
   State<MainScreen> createState() => _MainScreenState();
+}
+
+Widget buildTransactionTile(BuildContext context, Expense expense) {
+  final icon = getCategoryIcon(expense.category);
+  final color = getCategoryColor(expense.category);
+  var formattedDate = DateFormat('MMM d').format(expense.date);
+
+  String betterformattedDate() {
+    if (DateFormat('MMM d').format(DateTime.now()) == formattedDate) {
+      return formattedDate = 'Today';
+    }
+    if (DateFormat(
+          'MMM d',
+        ).format(DateTime.now().subtract(Duration(days: 1))) ==
+        formattedDate) {
+      return formattedDate = 'Yesterday';
+    }
+    return formattedDate;
+  }
+
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 16.0),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 3,
+            offset: const Offset(0, 2),
+            color: Colors.grey.shade300,
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    icon,
+                  ],
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  expense.category,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      CupertinoIcons.arrowtriangle_up_fill,
+                      color: Colors.red.shade900,
+                      size: 14,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      'NPR ${expense.amount.toStringAsFixed(0)}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.red.shade800,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  betterformattedDate(),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.outline,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
 class _MainScreenState extends State<MainScreen> {
@@ -330,13 +434,38 @@ class _MainScreenState extends State<MainScreen> {
                       GestureDetector(
                         onTap: () {
                           //redirect to all transactions
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder:
+                                  (_) => AllTransactions(
+                                    expenseStream: expenseService.getExpenses(),
+                                  ),
+                            ),
+                          );
                         },
-                        child: Text(
-                          'View All',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Theme.of(context).colorScheme.outline,
-                            fontWeight: FontWeight.w400,
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(121, 91, 91, 91),
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 3,
+                                offset: const Offset(0, 2),
+                                color: Colors.grey.shade300,
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(
+                              'View All',
+                              style: GoogleFonts.roboto(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -349,111 +478,7 @@ class _MainScreenState extends State<MainScreen> {
                       itemCount: expenses!.length,
                       itemBuilder: (context, int i) {
                         final expense = expenses[i];
-                        return _buildTransactionTile(expense);
-                        // return Padding(
-                        //   padding: const EdgeInsets.only(bottom: 16.0),
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       color: Colors.white,
-                        //       borderRadius: BorderRadius.circular(12),
-                        //       boxShadow: [
-                        //         BoxShadow(
-                        //           blurRadius: 3,
-                        //           offset: const Offset(0, 2),
-                        //           color: Colors.grey.shade300,
-                        //         ),
-                        //       ],
-                        //     ),
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.all(16.0),
-                        //       child: Row(
-                        //         mainAxisAlignment:
-                        //             MainAxisAlignment.spaceBetween,
-                        //         children: [
-                        //           Row(
-                        //             children: [
-                        //               Stack(
-                        //                 alignment: Alignment.center,
-                        //                 children: [
-                        //                   Container(
-                        //                     width: 50,
-                        //                     height: 50,
-                        //                     decoration: BoxDecoration(
-                        //                       color:
-                        //                           transactionsData[i]['color'],
-                        //                       shape: BoxShape.circle,
-                        //                     ),
-                        //                   ),
-                        //                   transactionsData[i]['icon'],
-                        //                   // Icon(
-                        //                   //   transactionsData[i]['icon'],
-                        //                   //   color: Colors.white,
-                        //                   // ),
-                        //                 ],
-                        //               ),
-                        //               const SizedBox(width: 12),
-                        //               Text(
-                        //                 transactionsData[i]['name'],
-                        //                 style: TextStyle(
-                        //                   fontSize: 14,
-                        //                   color:
-                        //                       Theme.of(
-                        //                         context,
-                        //                       ).colorScheme.onSurface,
-                        //                   fontWeight: FontWeight.bold,
-                        //                 ),
-                        //               ),
-                        //             ],
-                        //           ),
-                        //           Column(
-                        //             crossAxisAlignment: CrossAxisAlignment.end,
-                        //             children: [
-                        //               Row(
-                        //                 children: [
-                        //                   Icon(
-                        //                     transactionsData[i]['isIncome']
-                        //                         ? CupertinoIcons
-                        //                             .arrowtriangle_down_fill
-                        //                         : CupertinoIcons
-                        //                             .arrowtriangle_up_fill,
-                        //                     color:
-                        //                         transactionsData[i]['isIncome']
-                        //                             ? Colors.green.shade800
-                        //                             : Colors.red.shade900,
-                        //                     size: 14,
-                        //                   ),
-                        //                   SizedBox(width: 5),
-                        //                   Text(
-                        //                     transactionsData[i]['price'],
-                        //                     style: TextStyle(
-                        //                       fontSize: 14,
-                        //                       color:
-                        //                           transactionsData[i]['isIncome']
-                        //                               ? Colors.green.shade800
-                        //                               : Colors.red.shade800,
-                        //                       fontWeight: FontWeight.w900,
-                        //                     ),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //               Text(
-                        //                 transactionsData[i]['date'],
-                        //                 style: TextStyle(
-                        //                   fontSize: 14,
-                        //                   color:
-                        //                       Theme.of(
-                        //                         context,
-                        //                       ).colorScheme.outline,
-                        //                   fontWeight: FontWeight.w300,
-                        //                 ),
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // );
+                        return buildTransactionTile(context, expense);
                       },
                     ),
                   ),
@@ -487,95 +512,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           child: Icon(CupertinoIcons.add),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTransactionTile(Expense expense) {
-    final icon = getCategoryIcon(expense.category);
-    final color = getCategoryColor(expense.category);
-    final formattedDate = DateFormat('MMM d').format(expense.date);
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 3,
-              offset: const Offset(0, 2),
-              color: Colors.grey.shade300,
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: color,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      icon,
-                    ],
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    expense.category,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        CupertinoIcons.arrowtriangle_up_fill,
-                        color: Colors.red.shade900,
-                        size: 14,
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        'NPR ${expense.amount.toStringAsFixed(0)}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.red.shade800,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    formattedDate,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).colorScheme.outline,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
         ),
       ),
     );
