@@ -110,7 +110,7 @@ class _StatScreenState extends State<StatScreen> {
     final chartHeight = screenHeight * 0.25;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Statistics'), centerTitle: true),
+      appBar: AppBar(title: const Text('Habit Analysis'), centerTitle: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
