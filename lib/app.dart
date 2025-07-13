@@ -65,7 +65,6 @@ class _MyAppState extends State<MyApp> {
           }
 
           final user = snapshot.data;
-
           return user == null ? AuthScreen() : MyAppView();
         },
       ),
